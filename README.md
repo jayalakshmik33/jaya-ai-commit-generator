@@ -14,16 +14,43 @@ Client → CommitController → CommitGenerationService → OpenAI (GPT)
 - CommitGenerationService — uses Spring AI "ChatClient" to call OpenAI
 - ChatClient — prompt-based LLM interaction
 
+## How It Works
+
+1. You make code changes in your project
+2. Run `git diff` to get the raw diff of your changes
+3. Send that diff to this API
+4. OpenAI analyzes the actual code changes (added/removed lines)
+5. Returns a Conventional Commit message
+
 ## API Example
 
+Suppose you added a login method. First, run in your terminal:
+
+```bash
+git diff
+```
+
+Output (this is what you'd copy):
+```diff
+diff --git a/src/AuthService.java b/src/AuthService.java
++public String login(String username, String password) {
++    String token = JWT.create()
++        .withSubject(username)
++        .sign(Algorithm.HMAC256("secret"));
++    return token;
++}
+```
+
 ### Request
+
+Send that diff to the API:
 
 ```
 POST /api/commit/generate
 Content-Type: application/json
 
 {
-  "gitDiff": "Added JWT authentication and login validation"
+  "gitDiff": "diff --git a/src/AuthService.java b/src/AuthService.java\n+public String login(String username, String password) {\n+    String token = JWT.create()\n+        .withSubject(username)\n+        .sign(Algorithm.HMAC256(\"secret\"));\n+    return token;\n+}"
 }
 ```
 
@@ -31,7 +58,7 @@ Content-Type: application/json
 
 ```json
 {
-  "commitMessage": "feat(auth): add JWT authentication"
+  "commitMessage": "feat(auth): add JWT login with token generation"
 }
 ```
 
