@@ -10,9 +10,9 @@ Client → CommitController → CommitGenerationService → OpenAI (GPT)
                         ChatClient (Spring AI)
 ```
 
-- **CommitController** — REST endpoint accepting git diff input
-- **CommitGenerationService** — uses Spring AI `ChatClient` to call OpenAI
-- **ChatClient** — prompt-based LLM interaction
+- CommitController — REST endpoint accepting git diff input
+- CommitGenerationService — uses Spring AI "ChatClient" to call OpenAI
+- ChatClient — prompt-based LLM interaction
 
 ## API Example
 
@@ -47,19 +47,19 @@ Content-Type: application/json
 
 ## How to Run
 
-1. **Set your OpenAI API key**:
+1. Set your OpenAI API key:
    ```bash
    export OPENAI_API_KEY=sk-your-key-here
    ```
 
-2. **Build and run**:
+2. Build and run
    ```bash
    ./mvnw spring-boot:run
    ```
 
-3. **Access Swagger UI**: http://localhost:8080/swagger-ui.html
+3. Access Swagger UI: http://localhost:8080/swagger-ui.html
 
-4. **Test the endpoint** using Swagger UI or any HTTP client.
+4. Test the endpoint using Swagger UI or any HTTP client.
 
 ### Prerequisites
 
